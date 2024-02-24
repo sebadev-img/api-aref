@@ -111,60 +111,62 @@ class UserRestClientTest {
     }
 
     @Test
-    void testThatFindByUsernameReturnsUser() throws JsonProcessingException {
-        User data = new User(
-                2,
-                "test name",
-                "username2",
-                "email2",
-                new Address(
-                        "street",
-                        "suite",
-                        "city",
-                        "zipcode",
-                        new Geo(2.0,2.0)
-                ),
-                "phone",
-                "website",
-                new Company(
-                        "name",
-                        "phrase",
-                        "bs"
-                )
-
-        );
+    void testThatFindByUsernameReturnsListOfUser() throws JsonProcessingException {
+        List<User> data = List.of(
+                new User(
+                        2,
+                        "test name",
+                        "username2",
+                        "email2",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+                ));
         server.expect(requestTo("https://jsonplaceholder.typicode.com/users?username=username2"))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(data), MediaType.APPLICATION_JSON));
-        User user = userClient.findByUsername("username2");
+        List<User> users = userClient.findByUsername("username2");
+        User user = users.stream().findFirst().get();
         assertEquals("username2",user.username());
     }
 
     @Test
-    void testThatFindByEmailReturnsUser() throws JsonProcessingException {
-        User data = new User(
-                2,
-                "test name",
-                "username2",
-                "email2",
-                new Address(
-                        "street",
-                        "suite",
-                        "city",
-                        "zipcode",
-                        new Geo(2.0,2.0)
-                ),
-                "phone",
-                "website",
-                new Company(
-                        "name",
-                        "phrase",
-                        "bs"
-                )
-
-        );
+    void testThatFindByEmailReturnsListOfUser() throws JsonProcessingException {
+        List<User> data = List.of(
+                new User(
+                        2,
+                        "test name",
+                        "username2",
+                        "email2",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+                ));
         server.expect(requestTo("https://jsonplaceholder.typicode.com/users?email=email2"))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(data), MediaType.APPLICATION_JSON));
-        User user = userClient.findByEmail("email2");
+        List<User> users = userClient.findByEmail("email2");
+        User user = users.stream().findFirst().get();
         assertEquals("email2",user.email());
     }
 
