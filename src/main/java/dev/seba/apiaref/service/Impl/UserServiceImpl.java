@@ -1,10 +1,13 @@
 package dev.seba.apiaref.service.Impl;
 
 import dev.seba.apiaref.client.UserRestClient;
+import dev.seba.apiaref.dto.response.UsersResponseDto;
 import dev.seba.apiaref.model.User;
 import dev.seba.apiaref.service.IUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -14,6 +17,16 @@ public class UserServiceImpl implements IUserService {
     public UserServiceImpl(UserRestClient userClient){
         this.userClient = userClient;
     }
+
+    @Override
+    public UsersResponseDto getAll() {
+        List<User> users= userClient.findAll();
+        UsersResponseDto usersDto = new UsersResponseDto();
+        usersDto.setCount(users.size());
+        usersDto.setResults(users);
+        return usersDto;
+    }
+
     @Override
     public User getUserById(int id) {
         return userClient.findById(id);
@@ -27,5 +40,14 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User getUserByEmail(String email) {
         return userClient.findByEmail(email);
+    }
+
+    @Override
+    public UsersResponseDto getUsersByCity(String city) {
+        List<User> users= userClient.findByCity(city);
+        UsersResponseDto usersDto = new UsersResponseDto();
+        usersDto.setCount(users.size());
+        usersDto.setResults(users);
+        return usersDto;
     }
 }
