@@ -169,6 +169,32 @@ class UserRestClientTest {
     }
 
     @Test
-    void findByCity() {
+    void testThatFindByCityReturnsListOfUser() throws JsonProcessingException {
+        List<User> data = List.of(
+                new User(
+                        1,
+                        "test name",
+                        "username1",
+                        "email1",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(1.0,1.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+
+                ));
+        server.expect(requestTo("https://jsonplaceholder.typicode.com/users?address.city=city"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(data), MediaType.APPLICATION_JSON));
+        List<User> users = userClient.findByCity("city");
+        assertEquals(1,users.size());
     }
 }
