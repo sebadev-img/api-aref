@@ -111,7 +111,7 @@ class UserRestClientTest {
     }
 
     @Test
-    void findByUsername() throws JsonProcessingException {
+    void testThatFindByUsernameReturnsUser() throws JsonProcessingException {
         User data = new User(
                 2,
                 "test name",
