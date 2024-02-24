@@ -140,7 +140,32 @@ class UserRestClientTest {
     }
 
     @Test
-    void findByEmail() {
+    void testThatFindByEmailReturnsUser() throws JsonProcessingException {
+        User data = new User(
+                2,
+                "test name",
+                "username2",
+                "email2",
+                new Address(
+                        "street",
+                        "suite",
+                        "city",
+                        "zipcode",
+                        new Geo(2.0,2.0)
+                ),
+                "phone",
+                "website",
+                new Company(
+                        "name",
+                        "phrase",
+                        "bs"
+                )
+
+        );
+        server.expect(requestTo("https://jsonplaceholder.typicode.com/users?email=email2"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(data), MediaType.APPLICATION_JSON));
+        User user = userClient.findByEmail("email2");
+        assertEquals("email2",user.email());
     }
 
     @Test
