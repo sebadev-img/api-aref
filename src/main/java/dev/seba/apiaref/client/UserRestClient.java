@@ -32,18 +32,18 @@ public class UserRestClient {
                 .body(User.class);
     }
 
-    public User findByUsername(String username){
+    public List<User> findByUsername(String username){
         return restClient.get()
                 .uri("/users?username={username}",username)
                 .retrieve()
-                .body(User.class);
+                .body(new ParameterizedTypeReference<List<User>>() {});
     }
 
-    public User findByEmail(String email){
+    public List<User> findByEmail(String email){
         return restClient.get()
                 .uri("/users?email={email}",email)
                 .retrieve()
-                .body(User.class);
+                .body(new ParameterizedTypeReference<List<User>>() {});
     }
 
     public List<User> findByCity(String city){
