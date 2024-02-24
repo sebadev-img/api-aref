@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -34,12 +35,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserByUsername(String username) {
-        return userClient.findByUsername(username);
+        List<User> users = userClient.findByUsername(username);
+        Optional<User> user = users.stream().findFirst();
+        return user.orElse(null);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return userClient.findByEmail(email);
+        List<User> users = userClient.findByEmail(email);
+        Optional<User> user = users.stream().findFirst();
+        return user.orElse(null);
     }
 
     @Override
