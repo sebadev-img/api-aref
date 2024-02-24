@@ -1,0 +1,195 @@
+package dev.seba.apiaref.service.Impl;
+
+import dev.seba.apiaref.client.UserRestClient;
+import dev.seba.apiaref.dto.response.UsersResponseDto;
+import dev.seba.apiaref.model.Address;
+import dev.seba.apiaref.model.Company;
+import dev.seba.apiaref.model.Geo;
+import dev.seba.apiaref.model.User;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class UserServiceImplTest {
+
+    @Mock
+    private UserRestClient userClient;
+
+    @InjectMocks
+    private UserServiceImpl userService;
+
+    @Test
+    void TestThatGetAllReturnsUsersResponseDto() {
+        List<User> data = List.of(
+                new User(
+                        1,
+                        "test name",
+                        "username1",
+                        "email1",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(1.0,1.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+
+                ),
+                new User(
+                        2,
+                        "test name",
+                        "username2",
+                        "email2",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+
+                )
+
+        );
+        when(userClient.findAll()).thenReturn(data);
+        UsersResponseDto usersDto = userService.getAll();
+        assertEquals(2,usersDto.getCount());
+    }
+
+    @Test
+    void TestThatGetUserByIdReturnsUser() {
+        User data = new User(
+                2,
+                "test name",
+                "username2",
+                "email2",
+                new Address(
+                        "street",
+                        "suite",
+                        "city",
+                        "zipcode",
+                        new Geo(2.0,2.0)
+                ),
+                "phone",
+                "website",
+                new Company(
+                        "name",
+                        "phrase",
+                        "bs"
+                )
+
+        );
+        when(userClient.findById(2)).thenReturn(data);
+        User user = userService.getUserById(2);
+        assertEquals(2,user.id());
+    }
+
+    @Test
+    void TestThatGetUserByUsernameReturnsUser() {
+        User data = new User(
+                2,
+                "test name",
+                "username2",
+                "email2",
+                new Address(
+                        "street",
+                        "suite",
+                        "city",
+                        "zipcode",
+                        new Geo(2.0,2.0)
+                ),
+                "phone",
+                "website",
+                new Company(
+                        "name",
+                        "phrase",
+                        "bs"
+                )
+
+        );
+        when(userClient.findByUsername("username2")).thenReturn(data);
+        User user = userService.getUserByUsername("username2");
+        assertEquals("username2",user.username());
+    }
+
+    @Test
+    void TestThatGetUserByEmailReturnsUser() {
+        User data = new User(
+                2,
+                "test name",
+                "username2",
+                "email2",
+                new Address(
+                        "street",
+                        "suite",
+                        "city",
+                        "zipcode",
+                        new Geo(2.0,2.0)
+                ),
+                "phone",
+                "website",
+                new Company(
+                        "name",
+                        "phrase",
+                        "bs"
+                )
+
+        );
+        when(userClient.findByEmail("email2")).thenReturn(data);
+        User user = userService.getUserByEmail("email2");
+        assertEquals("email2",user.email());
+
+    }
+
+    @Test
+    void TestThatGetUsersByCityReturnsUsersDto() {
+        List<User> data = List.of(
+                new User(
+                        1,
+                        "test name",
+                        "username1",
+                        "email1",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(1.0,1.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+
+                ));
+        when(userClient.findByCity("city")).thenReturn(data);
+        UsersResponseDto usersDto = userService.getUsersByCity("city");
+        assertEquals(1,usersDto.getCount());
+
+    }
+}
