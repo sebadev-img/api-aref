@@ -38,4 +38,11 @@ public class UserRestClient {
                 .retrieve()
                 .body(User.class);
     }
+
+    public User findByEmail(String email){
+        return restClient.get()
+                .uri("/users?email={email}",email)
+                .retrieve()
+                .body(User.class);
+    }
 }
