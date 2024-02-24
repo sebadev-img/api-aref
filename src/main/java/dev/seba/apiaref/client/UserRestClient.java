@@ -45,4 +45,11 @@ public class UserRestClient {
                 .retrieve()
                 .body(User.class);
     }
+
+    public List<User> findByCity(String city){
+        return restClient.get()
+                .uri("/users?address.city={city}",city)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<User>>() {});
+    }
 }
