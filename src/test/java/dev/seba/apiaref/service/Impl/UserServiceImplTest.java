@@ -108,27 +108,28 @@ class UserServiceImplTest {
 
     @Test
     void TestThatGetUserByUsernameReturnsUser() {
-        User data = new User(
+        List<User> data = List.of(
+                new User(
                 2,
                 "test name",
                 "username2",
                 "email2",
-                new Address(
-                        "street",
-                        "suite",
-                        "city",
-                        "zipcode",
-                        new Geo(2.0,2.0)
-                ),
-                "phone",
-                "website",
-                new Company(
-                        "name",
-                        "phrase",
-                        "bs"
-                )
+                    new Address(
+                            "street",
+                            "suite",
+                            "city",
+                            "zipcode",
+                            new Geo(2.0,2.0)
+                    ),
+                    "phone",
+                    "website",
+                    new Company(
+                            "name",
+                            "phrase",
+                            "bs"
+                    )
 
-        );
+        ));
         when(userClient.findByUsername("username2")).thenReturn(data);
         User user = userService.getUserByUsername("username2");
         assertEquals("username2",user.username());
@@ -136,27 +137,28 @@ class UserServiceImplTest {
 
     @Test
     void TestThatGetUserByEmailReturnsUser() {
-        User data = new User(
-                2,
-                "test name",
-                "username2",
-                "email2",
-                new Address(
-                        "street",
-                        "suite",
-                        "city",
-                        "zipcode",
-                        new Geo(2.0,2.0)
-                ),
-                "phone",
-                "website",
-                new Company(
-                        "name",
-                        "phrase",
-                        "bs"
-                )
+        List<User> data = List.of(
+                new User(
+                        2,
+                        "test name",
+                        "username2",
+                        "email2",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
 
-        );
+                ));
         when(userClient.findByEmail("email2")).thenReturn(data);
         User user = userService.getUserByEmail("email2");
         assertEquals("email2",user.email());
