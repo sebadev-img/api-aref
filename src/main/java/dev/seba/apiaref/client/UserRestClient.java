@@ -31,4 +31,11 @@ public class UserRestClient {
                 .retrieve()
                 .body(User.class);
     }
+
+    public User findByUsername(String username){
+        return restClient.get()
+                .uri("/users?username={username}",username)
+                .retrieve()
+                .body(User.class);
+    }
 }
