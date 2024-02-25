@@ -21,7 +21,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @GetMapping("/post/top")
+    @GetMapping("/posts/top")
     public ResponseEntity<PostReportResponseDto> getTop10Post(){
         PostReportResponseDto response = reportService.getTop10PostByComment();
         return new ResponseEntity<>(response, HttpStatus.OK);
