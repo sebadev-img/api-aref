@@ -6,7 +6,6 @@ import dev.seba.apiaref.model.User;
 public interface IUserService {
     UsersResponseDto getAll();
     User getUserById(int id);
-    User getUserByUsername(String username);
-    User getUserByEmail(String email);
     UsersResponseDto getUsersByCity(String city);
+    User searchUser(String username,String email);
 }

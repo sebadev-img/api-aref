@@ -194,4 +194,51 @@ class UserServiceImplTest {
         assertEquals(1,usersDto.getCount());
 
     }
+
+    @Test
+    void testThatSearchUserReturnsUser(){
+        List<User> data = List.of(
+                new User(
+                        2,
+                        "test name",
+                        "username2",
+                        "email2",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+
+                ));
+        when(userClient.findByUsername("username2")).thenReturn(data);
+        when(userClient.findByEmail("email2")).thenReturn(data);
+
+        String username = "username2";
+        String email = "email2";
+        String emptyUsername = null;
+        String emptyEmail = null;
+
+        User user1 = userService.searchUser(username,email);
+        assertEquals("username2",user1.username());
+        assertEquals("email2",user1.email());
+
+        User user2 = userService.searchUser(username,emptyEmail);
+        assertEquals("username2",user2.username());
+
+        User user3 = userService.searchUser(emptyUsername,email);
+        assertEquals("email2",user3.email());
+
+        User user4 = userService.searchUser(emptyUsername,emptyEmail);
+        assertNull(user4);
+
+    }
 }
