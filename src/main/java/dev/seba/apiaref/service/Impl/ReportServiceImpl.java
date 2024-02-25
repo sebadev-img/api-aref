@@ -14,12 +14,12 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class ReportService implements IReportService {
+public class ReportServiceImpl implements IReportService {
 
     private final CommentRestClient commentClient;
     private final PostRestClient postClient;
 
-    public ReportService(CommentRestClient commentClient, PostRestClient postClient){
+    public ReportServiceImpl(CommentRestClient commentClient, PostRestClient postClient){
         this.commentClient = commentClient;
         this.postClient = postClient;
     }
