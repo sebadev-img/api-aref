@@ -1,7 +1,9 @@
 package dev.seba.apiaref.client;
 
+import dev.seba.apiaref.exception.PostNotFoundException;
 import dev.seba.apiaref.model.Post;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -28,6 +30,8 @@ public class PostRestClient {
         return restClient.get()
                 .uri("/posts/{id}",id)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                    throw new PostNotFoundException("Post Not Found");})
                 .body(Post.class);
     }
 
@@ -35,6 +39,8 @@ public class PostRestClient {
         return restClient.get()
                 .uri("/posts?userId={userId}",userId)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                    throw new PostNotFoundException("Post Not Found");})
                 .body(new ParameterizedTypeReference<List<Post>>() {});
     }
 }
