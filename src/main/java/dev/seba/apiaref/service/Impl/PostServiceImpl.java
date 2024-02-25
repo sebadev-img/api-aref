@@ -1,8 +1,10 @@
 package dev.seba.apiaref.service.Impl;
 
 import dev.seba.apiaref.client.PostRestClient;
+import dev.seba.apiaref.client.UserRestClient;
 import dev.seba.apiaref.dto.response.PostsResponseDto;
 import dev.seba.apiaref.model.Post;
+import dev.seba.apiaref.model.User;
 import dev.seba.apiaref.service.IPostService;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,11 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements IPostService {
 
     private final PostRestClient postClient;
+    private final UserRestClient userClient;
 
-    public PostServiceImpl(PostRestClient postRestClient){
+    public PostServiceImpl(PostRestClient postRestClient, UserRestClient userClient){
         this.postClient = postRestClient;
+        this.userClient = userClient;
     }
     @Override
     public PostsResponseDto getAll() {
@@ -33,6 +37,7 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public PostsResponseDto getPostsByUserId(int userId) {
+        User user = userClient.findById(userId);
         List<Post> posts = postClient.findByUserId(userId);
         PostsResponseDto postDto = new PostsResponseDto();
         postDto.setCount(posts.size());
