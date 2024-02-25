@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class PostReportResponseDto {
-    Integer count;
-    List<PostMetric> results;
+    private Integer count;
+    private List<PostMetric> results;
 }

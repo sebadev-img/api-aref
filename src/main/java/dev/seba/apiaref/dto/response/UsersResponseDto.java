@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class UsersResponseDto {
-    int count;
-    List<User> results;
+    private int count;
+    private List<User> results;
 }

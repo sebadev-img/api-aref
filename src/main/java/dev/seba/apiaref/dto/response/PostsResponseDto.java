@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class PostsResponseDto {
-    int count;
-    List<Post> results;
+    private int count;
+    private List<Post> results;
 }
