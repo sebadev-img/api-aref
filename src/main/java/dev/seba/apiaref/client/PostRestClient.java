@@ -30,4 +30,11 @@ public class PostRestClient {
                 .retrieve()
                 .body(Post.class);
     }
+
+    public List<Post> findByUserId(int userId){
+        return restClient.get()
+                .uri("/posts?userId={userId}",userId)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Post>>() {});
+    }
 }
