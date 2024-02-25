@@ -2,6 +2,7 @@ package dev.seba.apiaref.service.Impl;
 
 import dev.seba.apiaref.client.UserRestClient;
 import dev.seba.apiaref.dto.response.UsersResponseDto;
+import dev.seba.apiaref.exception.UserNotFoundException;
 import dev.seba.apiaref.model.User;
 import dev.seba.apiaref.service.IUserService;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class UserServiceImpl implements IUserService {
     public User getUserByUsername(String username) {
         List<User> users = userClient.findByUsername(username);
         Optional<User> user = users.stream().findFirst();
+        if(user.isEmpty()){
+            throw new UserNotFoundException("User Not Found");
+        }
         return user.orElse(null);
     }
 
@@ -44,6 +48,9 @@ public class UserServiceImpl implements IUserService {
     public User getUserByEmail(String email) {
         List<User> users = userClient.findByEmail(email);
         Optional<User> user = users.stream().findFirst();
+        if(user.isEmpty()){
+            throw new UserNotFoundException("User Not Found");
+        }
         return user.orElse(null);
     }
 

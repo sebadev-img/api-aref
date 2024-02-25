@@ -1,8 +1,10 @@
 package dev.seba.apiaref.service.Impl;
 
 import dev.seba.apiaref.client.PostRestClient;
+import dev.seba.apiaref.client.UserRestClient;
 import dev.seba.apiaref.dto.response.PostsResponseDto;
 import dev.seba.apiaref.model.Post;
+import dev.seba.apiaref.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -19,6 +22,8 @@ class PostServiceImplTest {
 
     @Mock
     private PostRestClient postClient;
+    @Mock
+    private UserRestClient userClient;
 
     @InjectMocks
     private PostServiceImpl postService;
@@ -48,6 +53,8 @@ class PostServiceImplTest {
                 new Post(1,1,"title","body"),
                 new Post(2,1,"title","body")
         );
+        User user = mock(User.class);
+        when(userClient.findById(1)).thenReturn(user);
         when(postClient.findByUserId(1)).thenReturn(data);
         PostsResponseDto postDto = postService.getPostsByUserId(1);
         assertEquals(2, postDto.getCount());
