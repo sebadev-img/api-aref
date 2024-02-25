@@ -33,7 +33,7 @@ public class PostRestClient {
 
     public List<Post> findByUserId(int userId){
         return restClient.get()
-                .uri("/post?userId={userId}",userId)
+                .uri("/posts?userId={userId}",userId)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<Post>>() {});
     }
