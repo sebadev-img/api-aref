@@ -32,15 +32,7 @@ public class UserController {
 
     @GetMapping("/search")
     public ResponseEntity<User> searchUser(@RequestParam(required = false) String username, @RequestParam(required = false) String email){
-        User response;
-        if(username != null){
-            response = userService.getUserByUsername(username);
-        } else if (email != null) {
-            response = userService.getUserByEmail(email);
-        }
-        else{
-            response = null;
-        }
+        User response = userService.searchUser(username,email);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 

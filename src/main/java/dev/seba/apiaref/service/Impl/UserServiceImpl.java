@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,35 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public UsersResponseDto getUsersByCity(String city) {
+        List<User> users= userClient.findByCity(city);
+        UsersResponseDto usersDto = new UsersResponseDto();
+        usersDto.setCount(users.size());
+        usersDto.setResults(users);
+        return usersDto;
+    }
+
+    @Override
+    public User searchUser(String username, String email) {
+        User userByUsername = null;
+        User userByEmail = null;
+        if(username != null){
+            userByUsername = getUserByUsername(username);
+        }
+        if(email != null){
+            userByEmail = getUserByEmail(email);
+        }
+        if(userByUsername != null && userByEmail != null){
+            if(Objects.equals(userByUsername.id(), userByEmail.id())){
+                return userByUsername;
+            }
+        }
+        if(userByUsername != null){
+            return userByUsername;
+        }
+        else return userByEmail;
+    }
+
     public User getUserByUsername(String username) {
         List<User> users = userClient.findByUsername(username);
         Optional<User> user = users.stream().findFirst();
@@ -44,7 +74,7 @@ public class UserServiceImpl implements IUserService {
         return user.orElse(null);
     }
 
-    @Override
+
     public User getUserByEmail(String email) {
         List<User> users = userClient.findByEmail(email);
         Optional<User> user = users.stream().findFirst();
@@ -52,14 +82,5 @@ public class UserServiceImpl implements IUserService {
             throw new UserNotFoundException("User Not Found");
         }
         return user.orElse(null);
-    }
-
-    @Override
-    public UsersResponseDto getUsersByCity(String city) {
-        List<User> users= userClient.findByCity(city);
-        UsersResponseDto usersDto = new UsersResponseDto();
-        usersDto.setCount(users.size());
-        usersDto.setResults(users);
-        return usersDto;
     }
 }
