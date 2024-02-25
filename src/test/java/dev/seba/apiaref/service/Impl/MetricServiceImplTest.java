@@ -7,7 +7,6 @@ import dev.seba.apiaref.dto.response.UserMetricsResponseDto;
 import dev.seba.apiaref.model.Comment;
 import dev.seba.apiaref.model.Post;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestClassOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -49,6 +48,6 @@ class MetricServiceImplTest {
         );
         when(commentClient.findCommentsByPostId(1)).thenReturn(data);
         PostMetricsResponseDto metricDto = metricService.getPostMetrics(1);
-        assertEquals(2,metricDto.getCommentsCount());
+        assertEquals(2,metricDto.getCommentCount());
     }
 }
