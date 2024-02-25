@@ -7,6 +7,7 @@ import dev.seba.apiaref.service.IPostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements IPostService {
@@ -36,6 +37,17 @@ public class PostServiceImpl implements IPostService {
         PostsResponseDto postDto = new PostsResponseDto();
         postDto.setCount(posts.size());
         postDto.setResults(posts);
+        return postDto;
+    }
+
+    @Override
+    public PostsResponseDto getPostsByTextInBody(String text) {
+        List<Post> posts = postClient.findAll();
+        List<Post> postsWithText = posts.stream().filter(post ->
+            post.body().contains(text)).toList();
+        PostsResponseDto postDto = new PostsResponseDto();
+        postDto.setCount(postsWithText.size());
+        postDto.setResults(postsWithText);
         return postDto;
     }
 }

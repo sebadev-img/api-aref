@@ -7,5 +7,6 @@ public interface IPostService {
     PostsResponseDto getAll();
     Post getById(int id);
     PostsResponseDto getPostsByUserId(int userId);
+    PostsResponseDto getPostsByTextInBody(String text);
 
 }
