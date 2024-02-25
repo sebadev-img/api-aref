@@ -31,12 +31,12 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<PostsResponseDto> searchPosts(@RequestParam(required = false) Integer userId, @RequestParam(required = false) String searchText){
+    public ResponseEntity<PostsResponseDto> searchPosts(@RequestParam(required = false) Integer userId, @RequestParam(required = false) String bodyText){
         PostsResponseDto response;
         if(userId != null){
             response = postService.getPostsByUserId(userId);
-        }else if(searchText != null){
-            response = postService.getPostsByTextInBody(searchText);
+        }else if(bodyText != null){
+            response = postService.getPostsByTextInBody(bodyText);
         }
         else{
             return null;

@@ -44,7 +44,7 @@ public class UserController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @GetMapping("/city/{name}")
+    @GetMapping("/cities/{name}")
     public ResponseEntity<UsersResponseDto> getUsersByCity(@PathVariable String name){
         UsersResponseDto response = userService.getUsersByCity(name);
         return new ResponseEntity<>(response,HttpStatus.OK);
