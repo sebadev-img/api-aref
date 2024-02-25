@@ -25,5 +25,12 @@ public class CommentRestClient {
                 .body(new ParameterizedTypeReference<List<Comment>>() {});
     }
 
+    public List<Comment> findAll(){
+        return restClient.get()
+                .uri("/comments")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Comment>>() {});
+    }
+
 
 }
