@@ -15,4 +15,12 @@ public class GlobalExceptionHandler {
         error.setMessage(ex.getMessage());
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorDto> handlePostNotFoundException(UserNotFoundException ex){
+        ErrorDto error = new ErrorDto();
+        error.setStatusCode(HttpStatus.NOT_FOUND.value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
 }
