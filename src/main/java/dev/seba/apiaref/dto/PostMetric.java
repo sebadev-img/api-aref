@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostMetric {
-    Integer postId;
-    Integer commentCount;
+    private Integer postId;
+    private Integer commentCount;
 }

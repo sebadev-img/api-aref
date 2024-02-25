@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class UserMetricsResponseDto {
-    Integer userId;
-    Integer postCount;
-    String userInfoPath;
-    String userPostsPath;
+    private Integer userId;
+    private Integer postCount;
+    private String userInfoPath;
+    private String userPostsPath;
 }

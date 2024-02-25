@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PostMetricsResponseDto {
-    Integer postId;
-    Integer commentCount;
-    String postInfoPath;
+    private Integer postId;
+    private Integer commentCount;
+    private String postInfoPath;
 }
