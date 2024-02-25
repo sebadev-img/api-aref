@@ -36,4 +36,16 @@ class CommentRestClientTest {
         List<Comment> comments = commentClient.findCommentsByPostId(1);
         assertEquals(2,comments.size());
     }
+
+    @Test
+    void testThatFindAllReturnsListOfComments() throws JsonProcessingException {
+        List<Comment> data = List.of(
+                new Comment(1,1,"name","email","body"),
+                new Comment(2,1,"name","email","body")
+        );
+        server.expect(requestTo("https://jsonplaceholder.typicode.com/comments"))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(data), MediaType.APPLICATION_JSON));
+        List<Comment> comments = commentClient.findAll();
+        assertEquals(2,comments.size());
+    }
 }
