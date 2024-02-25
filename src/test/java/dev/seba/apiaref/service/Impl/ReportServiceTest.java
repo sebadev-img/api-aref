@@ -47,33 +47,32 @@ class ReportServiceTest {
                 new Post(11,1,"title","body"),
                 new Post(12,1,"title","body")
         );
-        List<Comment> commentDataOf1 = List.of(
-                new Comment(1,1,"name","email","body")
-        );
-        List<Comment> commentDataOf2 = List.of(
+        List<Comment> commentData = List.of(
                 new Comment(1,1,"name","email","body"),
-                new Comment(1,1,"name","email","body")
-        );
-        List<Comment> commentDataOf3 = List.of(
-                new Comment(1,1,"name","email","body"),
-                new Comment(1,1,"name","email","body"),
-                new Comment(1,1,"name","email","body")
-        );
-        when(postClient.findAll()).thenReturn(postData);
-        when(commentClient.findCommentsByPostId(7)).thenReturn(commentDataOf3);
+                new Comment(1,2,"name","email","body"),
+                new Comment(1,3,"name","email","body"),
 
-        when(commentClient.findCommentsByPostId(4)).thenReturn(commentDataOf2);
-        when(commentClient.findCommentsByPostId(10)).thenReturn(commentDataOf2);
+                new Comment(1,4,"name","email","body"),
+                new Comment(1,4,"name","email","body"),
 
-        when(commentClient.findCommentsByPostId(1)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(2)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(3)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(5)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(6)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(8)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(9)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(11)).thenReturn(commentDataOf1);
-        when(commentClient.findCommentsByPostId(12)).thenReturn(commentDataOf1);
+                new Comment(1,5,"name","email","body"),
+                new Comment(1,6,"name","email","body"),
+
+                new Comment(1,7,"name","email","body"),
+                new Comment(1,7,"name","email","body"),
+                new Comment(1,7,"name","email","body"),
+
+                new Comment(1,8,"name","email","body"),
+                new Comment(1,9,"name","email","body"),
+
+                new Comment(1,10,"name","email","body"),
+                new Comment(1,10,"name","email","body"),
+
+                new Comment(1,11,"name","email","body"),
+                new Comment(1,12,"name","email","body")
+        );
+
+        when(commentClient.findAll()).thenReturn(commentData);
 
         PostReportResponseDto postReport = reportService.getTop10PostByComment();
         assertEquals(10,postReport.getCount());

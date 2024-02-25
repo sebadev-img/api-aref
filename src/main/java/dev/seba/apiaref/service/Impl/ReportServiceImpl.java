@@ -9,9 +9,7 @@ import dev.seba.apiaref.model.Post;
 import dev.seba.apiaref.service.IReportService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReportServiceImpl implements IReportService {
@@ -25,20 +23,29 @@ public class ReportServiceImpl implements IReportService {
     }
     @Override
     public PostReportResponseDto getTop10PostByComment() {
-        List<PostMetric> top = new ArrayList<>();
-        List<Post> posts = postClient.findAll();
-        posts.forEach(post -> {
-            List<Comment> comments = commentClient.findCommentsByPostId(post.id());
-            PostMetric postMetric = new PostMetric();
-            postMetric.setPostId(post.id());
-            postMetric.setCommentCount(comments.size());
-            top.add(postMetric);
+        List<Comment> comments = commentClient.findAll();
+        Map<Integer,Integer> postMap = new HashMap<>();
+        comments.forEach(comment -> {
+            int postId = comment.postId();
+            if(postMap.containsKey(postId)){
+                int currentCommentCount = postMap.get(postId);
+                postMap.put(postId,currentCommentCount+1);
+            }else{
+                postMap.put(postId,1);
+            }
         });
+        List<PostMetric> top = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry : postMap.entrySet()){
+            PostMetric postMetric = new PostMetric();
+            postMetric.setPostId(entry.getKey());
+            postMetric.setCommentCount(entry.getValue());
+            top.add(postMetric);
+        }
         top.sort(Comparator.comparingInt(PostMetric::getCommentCount).reversed());
         List<PostMetric> top10 = top.subList(0,Math.min(top.size(),10));
-        PostReportResponseDto postReport = new PostReportResponseDto();
-        postReport.setCount(top10.size());
-        postReport.setResults(top10);
-        return postReport;
+        PostReportResponseDto reportDto = new PostReportResponseDto();
+        reportDto.setCount(top10.size());
+        reportDto.setResults(top10);
+        return reportDto;
     }
 }
