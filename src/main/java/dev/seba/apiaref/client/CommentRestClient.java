@@ -20,7 +20,7 @@ public class CommentRestClient {
 
     public List<Comment> findCommentsByPostId(int postId){
         return restClient.get()
-                .uri("/comments/?postId={postId}",postId)
+                .uri("/comments?postId={postId}",postId)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<Comment>>() {});
     }
