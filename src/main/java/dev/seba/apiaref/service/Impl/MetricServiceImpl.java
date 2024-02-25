@@ -38,7 +38,7 @@ public class MetricServiceImpl implements IMetricService {
         List<Comment> postComments = commentClient.findCommentsByPostId(postId);
         PostMetricsResponseDto metricDto = new PostMetricsResponseDto();
         metricDto.setPostId(postId);
-        metricDto.setCommentsCount(postComments.size());
+        metricDto.setCommentCount(postComments.size());
         metricDto.setPostInfoPath("/api/posts/"+postId);
         return metricDto;
     }

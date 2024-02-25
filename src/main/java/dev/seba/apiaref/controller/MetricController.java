@@ -1,5 +1,6 @@
 package dev.seba.apiaref.controller;
 
+import dev.seba.apiaref.dto.response.PostMetricsResponseDto;
 import dev.seba.apiaref.dto.response.UserMetricsResponseDto;
 import dev.seba.apiaref.service.IMetricService;
 import dev.seba.apiaref.service.Impl.MetricServiceImpl;
@@ -21,8 +22,14 @@ public class MetricController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserMetricsResponseDto> getUserMetric(@PathVariable Integer id){
+    public ResponseEntity<UserMetricsResponseDto> getUserMetric(@PathVariable int id){
         UserMetricsResponseDto response = metricService.getUserMetrics(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<PostMetricsResponseDto> getPostMetric(@PathVariable int id){
+        PostMetricsResponseDto response = metricService.getPostMetrics(id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
