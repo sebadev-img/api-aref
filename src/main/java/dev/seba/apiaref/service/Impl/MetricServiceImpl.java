@@ -17,13 +17,13 @@ import java.util.List;
 public class MetricServiceImpl implements IMetricService {
 
     private final PostServiceImpl postService;
-    private final CommentRestClient commentClient;
+    private final CommentServiceImpl commentService;
     private final UserServiceImpl userService;
 
-    public MetricServiceImpl(UserServiceImpl userService, CommentRestClient commentClient, PostServiceImpl postService){
+    public MetricServiceImpl(UserServiceImpl userService, CommentServiceImpl commentService, PostServiceImpl postService){
 
         this.postService = postService;
-        this.commentClient = commentClient;
+        this.commentService = commentService;
         this.userService = userService;
     }
     @Override
@@ -41,7 +41,7 @@ public class MetricServiceImpl implements IMetricService {
     @Override
     public PostMetricsResponseDto getPostMetrics(int postId) {
         Post post = postService.getById(postId);
-        List<Comment> postComments = commentClient.findCommentsByPostId(postId);
+        List<Comment> postComments = commentService.getCommentsByPostId(postId);
         PostMetricsResponseDto metricDto = new PostMetricsResponseDto();
         metricDto.setPostId(postId);
         metricDto.setCommentCount(postComments.size());

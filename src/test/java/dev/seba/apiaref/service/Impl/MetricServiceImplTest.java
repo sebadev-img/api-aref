@@ -25,7 +25,7 @@ class MetricServiceImplTest {
     private PostServiceImpl postService;
 
     @Mock
-    private CommentRestClient commentClient;
+    private CommentServiceImpl commentService;
 
     @Mock
     private UserServiceImpl userService;
@@ -68,11 +68,11 @@ class MetricServiceImplTest {
     void testThatGetPostMetricsReturnsMetricDto(){
         List<Comment> data = List.of(
                 new Comment(1,1,"name","email","body"),
-                new Comment(2,2,"name","email","body")
+                new Comment(2,1,"name","email","body")
         );
         Post post = new Post(1,1,"title","body");
         when(postService.getById(1)).thenReturn(post);
-        when(commentClient.findCommentsByPostId(1)).thenReturn(data);
+        when(commentService.getCommentsByPostId(1)).thenReturn(data);
         PostMetricsResponseDto metricDto = metricService.getPostMetrics(1);
         assertEquals(2,metricDto.getCommentCount());
     }
