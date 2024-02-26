@@ -15,11 +15,9 @@ import java.util.*;
 public class ReportServiceImpl implements IReportService {
 
     private final CommentRestClient commentClient;
-    private final PostRestClient postClient;
 
-    public ReportServiceImpl(CommentRestClient commentClient, PostRestClient postClient){
+    public ReportServiceImpl(CommentRestClient commentClient){
         this.commentClient = commentClient;
-        this.postClient = postClient;
     }
     @Override
     public PostReportResponseDto getTop10PostByComment() {
