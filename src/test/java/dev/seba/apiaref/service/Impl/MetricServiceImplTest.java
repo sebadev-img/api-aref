@@ -5,9 +5,7 @@ import dev.seba.apiaref.client.PostRestClient;
 import dev.seba.apiaref.client.UserRestClient;
 import dev.seba.apiaref.dto.response.PostMetricsResponseDto;
 import dev.seba.apiaref.dto.response.UserMetricsResponseDto;
-import dev.seba.apiaref.model.Comment;
-import dev.seba.apiaref.model.Post;
-import dev.seba.apiaref.model.User;
+import dev.seba.apiaref.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,13 +22,13 @@ import static org.mockito.Mockito.when;
 class MetricServiceImplTest {
 
     @Mock
-    private PostRestClient postClient;
+    private PostServiceImpl postService;
 
     @Mock
     private CommentRestClient commentClient;
 
     @Mock
-    private UserRestClient userClient;
+    private UserServiceImpl userService;
 
     @InjectMocks
     private MetricServiceImpl metricService;
@@ -38,13 +36,31 @@ class MetricServiceImplTest {
     @Test
     void testThatGetUserMetricsReturnsMetricDto() {
         List<Post> data = List.of(
-                new Post(1,1,"title","body"),
-                new Post(2,1,"title","body")
+                new Post(1,3,"title","body"),
+                new Post(2,3,"title","body")
         );
-        User user = mock(User.class);
-        when(userClient.findById(1)).thenReturn(user);
-        when(postClient.findByUserId(1)).thenReturn(data);
-        UserMetricsResponseDto metricDto = metricService.getUserMetrics(1);
+        User user = new User(
+                3,
+                "test name",
+                "username3",
+                "email3",
+                new Address(
+                        "street",
+                        "suite",
+                        "city",
+                        "zipcode",
+                        new Geo(2.0,2.0)
+                ),
+                "phone",
+                "website",
+                new Company(
+                        "name",
+                        "phrase",
+                        "bs"
+                ));
+        when(userService.getUserById(3)).thenReturn(user);
+        when(postService.getPostsByUserId(3)).thenReturn(data);
+        UserMetricsResponseDto metricDto = metricService.getUserMetrics(3);
         assertEquals(2, metricDto.getPostCount());
     }
 
@@ -52,10 +68,10 @@ class MetricServiceImplTest {
     void testThatGetPostMetricsReturnsMetricDto(){
         List<Comment> data = List.of(
                 new Comment(1,1,"name","email","body"),
-                new Comment(2,1,"name","email","body")
+                new Comment(2,2,"name","email","body")
         );
-        Post post = mock(Post.class);
-        when(postClient.findById(1)).thenReturn(post);
+        Post post = new Post(1,1,"title","body");
+        when(postService.getById(1)).thenReturn(post);
         when(commentClient.findCommentsByPostId(1)).thenReturn(data);
         PostMetricsResponseDto metricDto = metricService.getPostMetrics(1);
         assertEquals(2,metricDto.getCommentCount());
