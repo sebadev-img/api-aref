@@ -22,8 +22,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ReportServiceTest {
-    @Mock
-    private PostRestClient postClient;
+
 
     @Mock
     private CommentRestClient commentClient;
