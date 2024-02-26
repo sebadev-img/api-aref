@@ -6,6 +6,7 @@ import dev.seba.apiaref.dto.response.PostsResponseDto;
 import dev.seba.apiaref.model.Post;
 import dev.seba.apiaref.model.User;
 import dev.seba.apiaref.service.IPostService;
+import dev.seba.apiaref.service.IUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,11 +18,11 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements IPostService {
 
     private final PostRestClient postClient;
-    private final UserRestClient userClient;
+    private final IUserService userService;
 
-    public PostServiceImpl(PostRestClient postRestClient, UserRestClient userClient){
+    public PostServiceImpl(PostRestClient postRestClient, UserServiceImpl userService){
         this.postClient = postRestClient;
-        this.userClient = userClient;
+        this.userService = userService;
     }
     @Override
     public PostsResponseDto getAll() {
@@ -60,9 +61,12 @@ public class PostServiceImpl implements IPostService {
 
     public List<Post> getPostsByUserId(Integer userId) {
         if(userId != null){
-            User user = userClient.findById(userId);
-            List<Post> posts = postClient.findByUserId(userId);
-            return posts;
+            User user = userService.getUserById(userId);
+            List<Post> posts = postClient.findAll();
+            List<Post> postsByUser = posts.stream().filter(post->
+                    Objects.equals(post.userId(), userId)
+            ).toList();
+            return postsByUser;
         }
         return new ArrayList<>();
 

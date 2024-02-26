@@ -3,8 +3,8 @@ package dev.seba.apiaref.service.Impl;
 import dev.seba.apiaref.client.PostRestClient;
 import dev.seba.apiaref.client.UserRestClient;
 import dev.seba.apiaref.dto.response.PostsResponseDto;
-import dev.seba.apiaref.model.Post;
-import dev.seba.apiaref.model.User;
+import dev.seba.apiaref.model.*;
+import dev.seba.apiaref.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +24,9 @@ class PostServiceImplTest {
     private PostRestClient postClient;
     @Mock
     private UserRestClient userClient;
+
+    @Mock
+    private UserServiceImpl userService;
 
     @InjectMocks
     private PostServiceImpl postService;
@@ -49,15 +52,33 @@ class PostServiceImplTest {
 
     @Test
     void testThatGetPostsByUserIdReturnsListOfPost() {
+        User user = new User(
+                1,
+                "test name",
+                "username2",
+                "email2",
+                new Address(
+                        "street",
+                        "suite",
+                        "city",
+                        "zipcode",
+                        new Geo(2.0,2.0)
+                ),
+                "phone",
+                "website",
+                new Company(
+                        "name",
+                        "phrase",
+                        "bs"
+                ));
         List<Post> data = List.of(
                 new Post(1,1,"title","body"),
-                new Post(2,1,"title","body")
+                new Post(2,2,"title","body")
         );
-        User user = mock(User.class);
-        when(userClient.findById(1)).thenReturn(user);
-        when(postClient.findByUserId(1)).thenReturn(data);
+        when(userService.getUserById(1)).thenReturn(user);
+        when(postClient.findAll()).thenReturn(data);
         List<Post> result = postService.getPostsByUserId(1);
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
