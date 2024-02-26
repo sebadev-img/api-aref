@@ -49,6 +49,9 @@ public class PostServiceImpl implements IPostService {
                     Objects.equals(post.userId(), userId)
             ).toList();
         }
+        if(!postsByUserId.isEmpty() && postsByBodyText.isEmpty() && bodyText != null){
+            totalPosts = new ArrayList<>();
+        }
         PostsResponseDto postDto = new PostsResponseDto();
         postDto.setCount(totalPosts.size());
         postDto.setResults(totalPosts);
