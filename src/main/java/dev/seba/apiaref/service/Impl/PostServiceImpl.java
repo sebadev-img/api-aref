@@ -3,6 +3,8 @@ package dev.seba.apiaref.service.Impl;
 import dev.seba.apiaref.client.PostRestClient;
 import dev.seba.apiaref.client.UserRestClient;
 import dev.seba.apiaref.dto.response.PostsResponseDto;
+import dev.seba.apiaref.exception.PostNotFoundException;
+import dev.seba.apiaref.exception.UserNotFoundException;
 import dev.seba.apiaref.model.Post;
 import dev.seba.apiaref.model.User;
 import dev.seba.apiaref.service.IPostService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +38,15 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public Post getById(int id) {
-        return postClient.findById(id);
+        List<Post> posts = postClient.findAll();
+        Optional<Post> postOptional = posts.stream().filter(post->
+                post.id() == id
+        ).findFirst();
+        if(postOptional.isEmpty()){
+            throw new PostNotFoundException("Post Not Found");
+        }
+        return postOptional.orElse(null);
+
     }
 
 
