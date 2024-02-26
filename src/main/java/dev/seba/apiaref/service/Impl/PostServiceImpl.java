@@ -8,7 +8,9 @@ import dev.seba.apiaref.model.User;
 import dev.seba.apiaref.service.IPostService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,24 +37,43 @@ public class PostServiceImpl implements IPostService {
         return postClient.findById(id);
     }
 
+
     @Override
-    public PostsResponseDto getPostsByUserId(int userId) {
-        User user = userClient.findById(userId);
-        List<Post> posts = postClient.findByUserId(userId);
+    public PostsResponseDto searchPosts(Integer userId, String bodyText) {
+        List<Post> postsByUserId = getPostsByUserId(userId);
+        List<Post> postsByBodyText = getPostsByTextInBody(bodyText);
+        List<Post> totalPosts = new ArrayList<>(postsByUserId);
+        totalPosts.addAll(postsByBodyText);
+        if(!postsByUserId.isEmpty() && !postsByBodyText.isEmpty()){
+            totalPosts = postsByBodyText.stream().filter(post ->
+                    Objects.equals(post.userId(), userId)
+            ).toList();
+        }
         PostsResponseDto postDto = new PostsResponseDto();
-        postDto.setCount(posts.size());
-        postDto.setResults(posts);
+        postDto.setCount(totalPosts.size());
+        postDto.setResults(totalPosts);
         return postDto;
     }
 
-    @Override
-    public PostsResponseDto getPostsByTextInBody(String text) {
-        List<Post> posts = postClient.findAll();
-        List<Post> postsWithText = posts.stream().filter(post ->
-            post.body().contains(text)).toList();
-        PostsResponseDto postDto = new PostsResponseDto();
-        postDto.setCount(postsWithText.size());
-        postDto.setResults(postsWithText);
-        return postDto;
+    public List<Post> getPostsByUserId(Integer userId) {
+        if(userId != null){
+            User user = userClient.findById(userId);
+            List<Post> posts = postClient.findByUserId(userId);
+            return posts;
+        }
+        return new ArrayList<>();
+
+    }
+
+
+    public List<Post> getPostsByTextInBody(String text) {
+        if(text != null){
+            List<Post> posts = postClient.findAll();
+            List<Post> postsWithText = posts.stream().filter(post ->
+                    post.body().contains(text)).toList();
+
+            return postsWithText;
+        }
+        return new ArrayList<>();
     }
 }

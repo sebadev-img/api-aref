@@ -68,7 +68,7 @@ class PostControllerTest {
         PostsResponseDto postDto = new PostsResponseDto();
         postDto.setCount(data.size());
         postDto.setResults(data);
-        when(postService.getPostsByUserId(1)).thenReturn(postDto);
+        when(postService.searchPosts(1,null)).thenReturn(postDto);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/search?userId=1")
                 .contentType(APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -83,8 +83,8 @@ class PostControllerTest {
         PostsResponseDto postDto = new PostsResponseDto();
         postDto.setCount(data.size());
         postDto.setResults(data);
-        when(postService.getPostsByTextInBody("dy")).thenReturn(postDto);
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/search?searchText=dy")
+        when(postService.searchPosts(null,"dy")).thenReturn(postDto);
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/search?bodyText=dy")
                 .contentType(APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.count", CoreMatchers.is(data.size())));
