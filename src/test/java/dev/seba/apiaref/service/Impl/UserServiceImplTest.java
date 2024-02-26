@@ -80,28 +80,48 @@ class UserServiceImplTest {
 
     @Test
     void TestThatGetUserByIdReturnsUser() {
-        User data = new User(
-                2,
-                "test name",
-                "username2",
-                "email2",
-                new Address(
-                        "street",
-                        "suite",
-                        "city",
-                        "zipcode",
-                        new Geo(2.0,2.0)
-                ),
-                "phone",
-                "website",
-                new Company(
-                        "name",
-                        "phrase",
-                        "bs"
-                )
+        List<User> data = List.of(
+                new User(
+                        2,
+                        "test name",
+                        "username2",
+                        "email2",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )),
+                new User(
+                        3,
+                        "test name",
+                        "username3",
+                        "email3",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        ))
 
         );
-        when(userClient.findById(2)).thenReturn(data);
+        when(userClient.findAll()).thenReturn(data);
         User user = userService.getUserById(2);
         assertEquals(2,user.id());
     }

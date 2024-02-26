@@ -32,7 +32,14 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getUserById(int id) {
-        return userClient.findById(id);
+        List<User> users = userClient.findAll();
+        Optional<User> userOptional = users.stream().filter(user->
+            user.id() == id
+        ).findFirst();
+        if(userOptional.isEmpty()){
+            throw new UserNotFoundException("User Not Found");
+        }
+        return userOptional.orElse(null);
     }
 
     @Override
