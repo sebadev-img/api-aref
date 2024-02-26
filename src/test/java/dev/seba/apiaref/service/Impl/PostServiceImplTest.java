@@ -44,8 +44,11 @@ class PostServiceImplTest {
 
     @Test
     void testThatGetByIdReturnsPost() {
-        Post data = new Post(2,1,"title","body");
-        when(postClient.findById(2)).thenReturn(data);
+        List<Post> data = List.of(
+                new Post(1,1,"title","body"),
+                new Post(2,1,"title","body")
+        );
+        when(postClient.findAll()).thenReturn(data);
         Post post = postService.getById(2);
         assertEquals(2,post.id());
     }
