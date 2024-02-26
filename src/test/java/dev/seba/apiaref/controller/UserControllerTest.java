@@ -146,7 +146,7 @@ class UserControllerTest {
                 )
 
         );
-        when(userService.getUserByUsername("username2")).thenReturn(data);
+        when(userService.searchUser("username2",null)).thenReturn(data);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/search?username=username2")
                 .contentType(APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -177,7 +177,7 @@ class UserControllerTest {
                 )
 
         );
-        when(userService.getUserByEmail("email2")).thenReturn(data);
+        when(userService.searchUser(null,"email2")).thenReturn(data);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/search?email=email2")
                 .contentType(APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -213,7 +213,7 @@ class UserControllerTest {
         usersDto.setCount(data.size());
         usersDto.setResults(data);
         when(userService.getUsersByCity("city")).thenReturn(usersDto);
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/city/city")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/users/cities/city")
                 .contentType(APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.count",CoreMatchers.is(data.size())));
