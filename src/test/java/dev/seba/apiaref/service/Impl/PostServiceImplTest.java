@@ -81,7 +81,7 @@ class PostServiceImplTest {
         );
         List<Post> dataBodyText = List.of(
                 new Post(1,1,"title","body"),
-                new Post(2,1,"title","body"),
+                new Post(2,1,"title","text body"),
                 new Post(3,2,"title","text body")
 
         );
@@ -99,13 +99,13 @@ class PostServiceImplTest {
         String bodyTextNotFound = "sss";
 
         PostsResponseDto result1 = postService.searchPosts(userId,bodyText);
-        assertEquals(3,result1.getCount());
+        assertEquals(1,result1.getCount());
 
         PostsResponseDto result2 = postService.searchPosts(userIdNotFound,bodyText);
-        assertEquals(1,result2.getCount());
+        assertEquals(2,result2.getCount());
 
         PostsResponseDto result3 = postService.searchPosts(userId,bodyTextNotFound);
-        assertEquals(2,result3.getCount());
+        assertEquals(0,result3.getCount());
 
         PostsResponseDto result4 = postService.searchPosts(userIdNotFound,bodyTextNotFound);
         assertEquals(0,result4.getCount());
