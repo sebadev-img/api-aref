@@ -323,8 +323,8 @@ class UserServiceImplTest {
                         )
 
                 ));
-        when(userClient.findByUsername("username2")).thenReturn(data);
-        when(userClient.findByEmail("email2")).thenReturn(data);
+        when(userClient.findAll()).thenReturn(data);
+        when(userClient.findAll()).thenReturn(data);
 
         String username = "username2";
         String email = "email2";
