@@ -16,20 +16,20 @@ import java.util.List;
 @Service
 public class MetricServiceImpl implements IMetricService {
 
-    private final PostRestClient postClient;
+    private final PostServiceImpl postService;
     private final CommentRestClient commentClient;
-    private final UserRestClient userClient;
+    private final UserServiceImpl userService;
 
-    public MetricServiceImpl(PostRestClient postClient, CommentRestClient commentClient, UserRestClient userClient){
+    public MetricServiceImpl(UserServiceImpl userService, CommentRestClient commentClient, PostServiceImpl postService){
 
-        this.postClient = postClient;
+        this.postService = postService;
         this.commentClient = commentClient;
-        this.userClient = userClient;
+        this.userService = userService;
     }
     @Override
     public UserMetricsResponseDto getUserMetrics(int userId) {
-        User user = userClient.findById(userId);
-        List<Post> userPosts = postClient.findByUserId(userId);
+        User user = userService.getUserById(userId);
+        List<Post> userPosts = postService.getPostsByUserId(userId);
         UserMetricsResponseDto metricDto = new UserMetricsResponseDto();
         metricDto.setUserId(userId);
         metricDto.setPostCount(userPosts.size());
@@ -40,7 +40,7 @@ public class MetricServiceImpl implements IMetricService {
 
     @Override
     public PostMetricsResponseDto getPostMetrics(int postId) {
-        Post post = postClient.findById(postId);
+        Post post = postService.getById(postId);
         List<Comment> postComments = commentClient.findCommentsByPostId(postId);
         PostMetricsResponseDto metricDto = new PostMetricsResponseDto();
         metricDto.setPostId(postId);
