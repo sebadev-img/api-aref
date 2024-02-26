@@ -32,15 +32,7 @@ public class PostController {
 
     @GetMapping("/search")
     public ResponseEntity<PostsResponseDto> searchPosts(@RequestParam(required = false) Integer userId, @RequestParam(required = false) String bodyText){
-        PostsResponseDto response;
-        if(userId != null){
-            response = postService.getPostsByUserId(userId);
-        }else if(bodyText != null){
-            response = postService.getPostsByTextInBody(bodyText);
-        }
-        else{
-            return null;
-        }
+        PostsResponseDto response = postService.searchPosts(userId,bodyText);
         return new ResponseEntity<>(response,HttpStatus.OK);
 
     }

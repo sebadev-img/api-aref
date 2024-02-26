@@ -6,7 +6,6 @@ import dev.seba.apiaref.model.Post;
 public interface IPostService {
     PostsResponseDto getAll();
     Post getById(int id);
-    PostsResponseDto getPostsByUserId(int userId);
-    PostsResponseDto getPostsByTextInBody(String text);
+    PostsResponseDto searchPosts(Integer userId, String bodyText);
 
 }
