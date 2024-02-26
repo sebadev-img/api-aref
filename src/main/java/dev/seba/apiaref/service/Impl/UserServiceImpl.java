@@ -66,21 +66,31 @@ public class UserServiceImpl implements IUserService {
     }
 
     public User getUserByUsername(String username) {
-        List<User> users = userClient.findByUsername(username);
-        Optional<User> user = users.stream().findFirst();
-        if(user.isEmpty()){
+        if(username == null){
+            return null;
+        }
+        List<User> users = userClient.findAll();
+        Optional<User> userOptional = users.stream().filter(user->
+                Objects.equals(user.username(), username)
+        ).findFirst();
+        if(userOptional.isEmpty()){
             throw new UserNotFoundException("User Not Found");
         }
-        return user.orElse(null);
+        return userOptional.orElse(null);
     }
 
 
     public User getUserByEmail(String email) {
-        List<User> users = userClient.findByEmail(email);
-        Optional<User> user = users.stream().findFirst();
-        if(user.isEmpty()){
+        if(email == null){
+            return null;
+        }
+        List<User> users = userClient.findAll();
+        Optional<User> userOptional = users.stream().filter(user->
+                Objects.equals(user.email(), email)
+        ).findFirst();
+        if(userOptional.isEmpty()){
             throw new UserNotFoundException("User Not Found");
         }
-        return user.orElse(null);
+        return userOptional.orElse(null);
     }
 }

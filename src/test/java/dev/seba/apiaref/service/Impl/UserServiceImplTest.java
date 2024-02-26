@@ -127,10 +127,29 @@ class UserServiceImplTest {
                             "name",
                             "phrase",
                             "bs"
-                    )
+                    )),
+                new User(
+                        3,
+                        "test name",
+                        "username3",
+                        "email3",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        ))
 
-        ));
-        when(userClient.findByUsername("username2")).thenReturn(data);
+        );
+        when(userClient.findAll()).thenReturn(data);
         User user = userService.getUserByUsername("username2");
         assertEquals("username2",user.username());
     }
@@ -158,8 +177,30 @@ class UserServiceImplTest {
                                 "bs"
                         )
 
-                ));
-        when(userClient.findByEmail("email2")).thenReturn(data);
+                ),
+                new User(
+                        3,
+                        "test name",
+                        "username3",
+                        "email3",
+                        new Address(
+                                "street",
+                                "suite",
+                                "city",
+                                "zipcode",
+                                new Geo(2.0,2.0)
+                        ),
+                        "phone",
+                        "website",
+                        new Company(
+                                "name",
+                                "phrase",
+                                "bs"
+                        )
+
+                )
+        );
+        when(userClient.findAll()).thenReturn(data);
         User user = userService.getUserByEmail("email2");
         assertEquals("email2",user.email());
 
