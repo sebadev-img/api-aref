@@ -37,10 +37,13 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UsersResponseDto getUsersByCity(String city) {
-        List<User> users= userClient.findByCity(city);
+        List<User> users= userClient.findAll();
+        List<User> usersByCity = users.stream().filter(user->
+                Objects.equals(user.address().city(), city)
+        ).toList();
         UsersResponseDto usersDto = new UsersResponseDto();
-        usersDto.setCount(users.size());
-        usersDto.setResults(users);
+        usersDto.setCount(usersByCity.size());
+        usersDto.setResults(usersByCity);
         return usersDto;
     }
 
