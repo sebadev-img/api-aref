@@ -111,8 +111,8 @@ class PostServiceImplTest {
         );
 
         User user = mock(User.class);
-        when(userClient.findById(1)).thenReturn(user);
-        when(postClient.findByUserId(1)).thenReturn(dataUserId);
+        when(userService.getUserById(1)).thenReturn(user);
+        when(postService.getPostsByUserId(1)).thenReturn(dataUserId);
 
         when(postClient.findAll()).thenReturn(dataBodyText);
 
