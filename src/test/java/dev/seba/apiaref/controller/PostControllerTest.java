@@ -84,7 +84,7 @@ class PostControllerTest {
         postDto.setCount(data.size());
         postDto.setResults(data);
         when(postService.getPostsByTextInBody("dy")).thenReturn(postDto);
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/search?searchText=dy")
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/posts/search?bodyText=dy")
                 .contentType(APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.count", CoreMatchers.is(data.size())));
